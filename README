@@ -1,0 +1,119 @@
+Proiectarea Algoritmilor - Tema 1 Gigel si muntele de bani
+
+Student: Hodoboc-Velescu Tudor 325CC
+Dificultate: medie
+Timp de rezolvare: 12h rezolvare efectiva + 3-4h debugging
+
+Detalii despre implementare
+
+Problema 1. Gigel si criptomonedele
+Complexitate temporala: O(n*logn)
+Complexitate spatiala: O(n)
+Tip problema: Greedy
+
+In primul rand, am inceput prin a-mi crea o structura calculator.
+Aceasta stocheaza datele despre un calculator: puterea p si costul de
+upgrade u. De asemenea, am facut o metoda de structura pentru ordonarea
+obiectelor dupa puterea de minare. Datele despre "mina" lui Gigel le-am
+stocat intr-un vector de structuri calculator pe care l-am sortat dupa putere.
+Am facut acest lucru pentru a putea cauta mai usor calculatoarele de putere
+minima. Am nevoie de acest lucru deoarece puterea maxima de minare este data de
+puterea minima din mina. Dupa care, am inceput sa fac upgrade-uri. Cel mai
+important lucru in rezolvarea problemei este sa faci upgrade-urile minime
+deodata, adica sa iei toate obiectele de putere minima si sa calculezi daca
+acestea pot fi upgradate cu un nivel de putere fara sa se depaseasca bugetul
+total. Daca nu le pot creste pe toate, nu mai are sens sa cresc pe niciunul.
+Astfel, la fiecare pas caut toate calculatoarele de putere minima, adun costul
+de upgrade si verific daca se poate face upgrade-ul. Daca costul de pana acum
+adunat cu costul pentru cel curent depaseste bugetul, se iese. Daca este egal
+cu bugetul, atunci se poate face doar acest upgrade, caz in care se mareste
+puterea minima si se iese. Daca este strict mai mic, se aduna costul, se mereste
+puterea minima si se merge mai departe. Pentru a optimiza programul, nu se mai
+calculeaza mereu costul de upgrade pentru valorile minime. Se salveaza costul
+pentru un upgrade si pozitia de unde incepe urmatorul calculator cu o putere
+superioara. Daca exista calculatoare cu putere minima ce nu au fost adaugate,
+se adauga la costul pentru un upgrade la costul partial. De asemenea, datorita
+acestei optimizari am inceput sa modific doar puterea primului calculator
+deoarece el va fi mereu cel mai mic, iar acolo se va afla puterea maxima de
+minare la final. De asemenea, o alta optimizare a fost ca, in momentul in care
+pot face cel putin un upgrade, testez daca nu cumva se pot face mai multe
+deoadata pana la urmatoarea putere. Acest lucru evita efectuarera tuturor
+operatiilor din loop. La final, se printeaza rezultatul in fisierul de iesire.
+
+Recomandare: Criptomoneda trebuia denumita DogeCoin
+
+
+Problema 2. Gigel investeste la bursa
+Complexitate temporala: O(N * B * L)
+Complexitate spatiala: O(N * B * L)
+Tip problema: Programare Dinamica
+
+Din start, aceasta problema se aseamana cu problema rucsacului studiata la
+laborator. In cazul de fata, weight-ul este valoarea curenta a actiunii, iar
+profitul este dat de diferenta dintre valoarea maxima si valoarea curenta.
+De asemenea, se adauga un weight dat de pierderea posibila oferita de actiune,
+data prin diferenta dintre valoarea curenta si valoarea minima. Se creaza un
+vector de structuri actiune(ce modeleaza o actiune prin valoarea curenta,
+valoarea minima si valoarea maxima). De asemenea, se creaza un array de 3
+dimensiuni, cate una pentru fiecare valoarea de care trebuie sa se tina cont
+(numarul de iteme care pot fi puse, bugetul si pierderea maxima). Se verifica
+daca in pentru un numar de i actiuni, buget maxim j si pierdere maxima k se mai
+poate adauga actiunea curenta, iar daca da se verifica daca adaugarea actiunii
+va aduce un beneficiu. In caz afirmativ, starea actuala retine adaugara actiunii
+curente, in caz negativ se pastreaza profitul dat de starea precedenta(i - 1).
+La final, profitul maxim se va afla in cub la pozitia [N] [B] [L].
+Se printeaza in fisier aceasta valoare.
+
+Recomandare: Fisierul se putea numi "stonks" in loc de stocks, just saying.
+
+
+Problema 3. Gigel merge la munte
+Commplexitate temporala: O(N)
+Complexitate spatiala: O(N)
+Tip problema: Greedy
+
+Problema este destul de usoara. In primul rand, se cauta maximul. Pentru a fi
+cat mai eficient, se testeaza valoarile la momentul citirii pentru a se gasi
+minimul. De asemenea, se testeaza daca valorile sunt constante, caz in care clar
+valoarea de iesire va fi 0 deci se printeaza in fisier si se termina programul.
+Datorita posibilitatii ca valoarea de minim sa fie in capete, minimul se
+calculeaza doar pentru valorile cuprinse intre capete. De aici, algoritmul este
+simplu: se pleaca din stanga de la pozitia 1 la pozitia minimului, iar daca
+valoarea de pe pozita i este mai mare decat valoarea de pe i - 1, atunci se
+adauga diferenta intre cele doua valori la un cost total, iar valoarea i devine
+cea de pe pozitie i - 1. Similar se pleaca si din dreapta catre valoare minima.
+La final, se printeaza in fisier costul total acumulat pana acum.
+
+
+Problema 4. Gigel si creasta montana
+Complexitate temporala: O(N)
+Complexitate spatiala: O(N)
+Tip problema: Programare Dinamica
+
+Primul pas pentru rezolvarea problemei este sa de a intelege ca fiecare munte
+are un numar de sapaturi maxim egal cu 2. Daca avem trei munti de inaltimi
+egala(cazul cel mai rau), atunci acestia pot fi modificati astfel: unul sa
+ramana la fel, unul sa fie ridicat si unul sa fie scazut. Cu toate astea, noi
+putem doar micsora nivelul muntelui. Astfel, ar trebui ca un munte sa ramana la
+fel, unul sa coboare cu maxi un nivel si altul sa coboare cu doua nivele maxim.
+Astfel, vom crea o matrice de N randuri si 3 coloane. Pozitiile de pe linia 0
+trebuie hardcodate deoarece acestea vor reprezenta cazuri de baza, cand primul
+munte nu isi modifica inaltimea, cand isi modifica inaltimea cu un nivel, cand
+isi modifica inaltimea cu doua niveluri. Pozitia [i][j] din materice va
+reprezenta costul minim pentru a modifica muntele i cu j nivele(daca modificarea
+respecta regulile impuse: fara munti de inaltime egala adiacenti si fara
+inaltimi negative; altfel, costul este infinit pentru a nu influenta cazurile
+viitoare). Astfel, pe coloana N - 1 se vor afla costurile minime calculate
+pentru fiecare combinatie de scadere. Mai trebuie sa calculam doar minimul
+dintre acestea, pentru a afla costul optim.
+
+Surse de inspiratie: La problema 1 mi-au recomandat niste colegi sa fac mai
+multe update-uri deoadata pentru a fi codul mai optim. La problema 2 am adaptat
+problema rucsacului. La problema 3  mi s-a recomandat sa testez daca vectorul
+este constant pentru a iesi direct, la fel si cautarea minimului exceptand
+capetele vectorului. La problema 4 am avut ca inspiratie directa un algoritm
+gasit pe internet(GeeksforGeeks). Voi lasa mai jos link-ul catre pagina. Tin sa
+precizez ca am incercat sa pastrez algoritmul doar ca o inspiratie.
+
+Link problema 4:
+https://www.geeksforgeeks.org/minimize-the-cost-to-make-all-the-adjacent-elements-distinct-in-an-array/
